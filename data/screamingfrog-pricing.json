@@ -1,0 +1,21 @@
+{
+  "vendor": "Screaming Frog",
+  "product": "SEO Spider",
+  "source_url": "https://www.screamingfrog.co.uk/seo-spider/pricing/",
+  "retrieved": "2026-10-24",
+  "retrieved_note": "Retrieved Saturday 24 October 2026, about 07:11 ET. GBP is the page default; USD and EUR are what the same page shows after switching its own currency selector (?wmc-currency=USD / EUR).",
+  "unit": "price per licence per year",
+  "licence_term": "1 year, per user",
+  "tiers": [
+    {"min": 1,  "max": 4,    "label": "1-4",   "GBP": 199, "USD": 279, "EUR": 245},
+    {"min": 5,  "max": 9,    "label": "5-9",   "GBP": 189, "USD": 265, "EUR": 235},
+    {"min": 10, "max": 19,   "label": "10-19", "GBP": 179, "USD": 249, "EUR": 219},
+    {"min": 20, "max": null, "label": "20+",   "GBP": 169, "USD": 235, "EUR": 209}
+  ],
+  "free_version": "Free version limited to 500 URLs per crawl",
+  "assumptions_not_verified": [
+    "Renewal price assumed equal to the list price in the table (the page does not state a different renewal rate in the section read).",
+    "Taxes (VAT/sales tax) are not included.",
+    "Volume tiers apply to the number of licences bought at one time; we assume you buy all seats at once and renew all at once."
+  ]
+}

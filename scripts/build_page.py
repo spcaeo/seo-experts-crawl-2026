@@ -26,7 +26,7 @@ broken_sites = [s['site'] for s in sites if I(s, 'broken_urls')]
 clean_pages = sum(s['grid'].count('0') for s in D['sites'])
 total_counted = sum(counted.values())
 # copy downloadable data into docs/ so Pages serves it
-for f in ('sites.csv', 'sites.json', 'pages.csv', 'excluded-flags.csv', 'verified-examples.csv', 'verified-examples.json', 'backlinko-redirects.csv', 'DATA-DICTIONARY.md'):
+for f in ('sites.csv', 'sites.json', 'pages.csv', 'excluded-flags.csv', 'verified-examples.csv', 'verified-examples.json', 'backlinko-redirects.csv', 'DATA-DICTIONARY.md', 'screamingfrog-pricing.json'):
     p = os.path.join(R, 'data', f)
     if os.path.exists(p): shutil.copy(p, os.path.join(R, 'docs/data', f))
 def kb(f):
@@ -126,7 +126,7 @@ page = f'''<!doctype html>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap"><a class="brand" href="{BASE}">Audit the <span>experts</span></a>
-<nav class="links" aria-label="Sections"><a href="#grid">Health grid</a><a href="#charts">Charts</a><a href="#sites">Per-site table</a><a href="#examples">Examples</a><a href="methodology.html">Method</a><a href="faq.html">FAQ</a><a href="#data">Data</a></nav>
+<nav class="links" aria-label="Sections"><a href="#grid">Health grid</a><a href="#charts">Charts</a><a href="#sites">Per-site table</a><a href="#examples">Examples</a><a href="methodology.html">Method</a><a href="calculator.html">Calculator</a><a href="compare.html">Compare</a><a href="faq.html">FAQ</a><a href="#data">Data</a></nav>
 <a class="btn sm" href="#run">Audit your site</a></div></header>
 <main id="main">
 <section class="hero" aria-labelledby="h1">
@@ -239,7 +239,7 @@ page = f'''<!doctype html>
 </main>
 <footer><div class="wrap">
 <p><b>Disclosure:</b> Toadstone is our tool; this study was run by its maker, Rakesh Patel. If you run one of these sites and something here is out of date, open an issue on <a href="{REPO}/issues">GitHub</a> and we will update it quickly.</p>
-<p>Data and text CC BY 4.0 · Code MIT · Crawled <time datetime="{DATE}">23 October 2026</time> · <a href="methodology.html">Method</a> · <a href="faq.html">FAQ</a></p>
+<p>Data and text CC BY 4.0 · Code MIT · Crawled <time datetime="{DATE}">23 October 2026</time> · <a href="methodology.html">Method</a> · <a href="calculator.html">Calculator</a> · <a href="compare.html">Compare</a> · <a href="faq.html">FAQ</a></p>
 </div></footer>
 <div id="tip" role="tooltip"></div>
 </body></html>
@@ -260,7 +260,9 @@ erows = ''.join(f"<tr><th scope=\"row\">{e(x['site'])}</th><td>{e(x['toadstone_c
 mld = {'@context': 'https://schema.org', '@type': 'TechArticle', 'headline': m_title, 'description': m_desc, 'url': MURL, 'mainEntityOfPage': MURL,
        'datePublished': STAMP, 'dateModified': STAMP, 'image': [BASE + 'og-image.png'], 'isPartOf': {'@type': 'WebSite', 'name': 'Toadstone study', 'url': BASE},
        'author': {'@type': 'Person', 'name': 'Rakesh Patel', 'url': 'https://github.com/spcaeo'}, 'publisher': {'@type': 'Organization', 'name': 'Toadstone', 'url': TOOL}}
-def shell(title, desc, url, ld, kicker, h1, lede, body):
+def shell(title, desc, url, ld, kicker, h1, lede, body, stamp=None, scripts=()):
+    stamp = stamp or STAMP
+    xs = ''.join(f'<script src="{x}" defer></script>\n' for x in scripts)
     ldj = json.dumps(ld, ensure_ascii=False)
     alt = f"We crawled 10 of the best-known SEO sites: {T['pages']:,} pages, {T['broken']} broken URLs."
     return f'''<!doctype html>
@@ -290,19 +292,19 @@ def shell(title, desc, url, ld, kicker, h1, lede, body):
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="{e(alt)}">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="{STAMP}">
-<meta property="article:modified_time" content="{STAMP}">
+<meta property="article:published_time" content="{stamp}">
+<meta property="article:modified_time" content="{stamp}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{e(title)}">
 <meta name="twitter:description" content="{e(desc)}">
 <meta name="twitter:image" content="{BASE}og-image.png">
 <meta name="twitter:image:alt" content="{e(alt)}">
 <script type="application/ld+json">{ldj}</script>
-</head>
+{xs}</head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap"><a class="brand" href="{BASE}">Audit the <span>experts</span></a>
-<nav class="links" aria-label="Sections"><a href="{BASE}#sites">Per-site table</a><a href="methodology.html">Method</a><a href="faq.html">FAQ</a><a href="{BASE}#data">Data</a></nav>
+<nav class="links" aria-label="Sections"><a href="{BASE}#sites">Per-site table</a><a href="methodology.html">Method</a><a href="calculator.html">Calculator</a><a href="compare.html">Compare</a><a href="faq.html">FAQ</a><a href="{BASE}#data">Data</a></nav>
 <a class="btn sm" href="{BASE}#run">Audit your site</a></div></header>
 <main id="main"><div class="wrap prose">
 <p class="kicker">{kicker}</p>
@@ -310,7 +312,7 @@ def shell(title, desc, url, ld, kicker, h1, lede, body):
 <p class="lede">{lede}</p>
 {body}
 </div></main>
-<footer><div class="wrap"><p>Data and text CC BY 4.0 · Code MIT · <a href="{BASE}">Home</a> · <a href="methodology.html">Method</a> · <a href="faq.html">FAQ</a> · <a href="{REPO}">GitHub</a></p></div></footer>
+<footer><div class="wrap"><p>Data and text CC BY 4.0 · Code MIT · <a href="{BASE}">Home</a> · <a href="methodology.html">Method</a> · <a href="calculator.html">Calculator</a> · <a href="compare.html">Compare</a> · <a href="faq.html">FAQ</a> · <a href="{REPO}">GitHub</a></p></div></footer>
 </body></html>
 '''
 
@@ -347,18 +349,24 @@ open(os.path.join(os.path.dirname(OUT), 'methodology.html'), 'w').write(mpage)
 FURL = BASE + 'faq.html'
 f_title = 'FAQ: the 2026 SEO experts crawl'
 f_desc = 'Answers about the 2026 crawl of 10 SEO sites: who we crawled, what we counted, how to reuse the data, and how to audit your own site.'
-FAQ = [('Which sites did you crawl?', 'Semrush, Surfer, Neil Patel, Ahrefs, Search Engine Journal, Yoast, SE Ranking, Search Engine Roundtable, Backlinko and Moz. The first ~300 URLs the crawler reached on each, mostly blog and learn pages.'), ('Were these sites bad at SEO?', 'No. They were mostly excellent: most pages had a meta description, canonical and a single H1. We are showing the few places where even careful teams slip, because it is useful to see what slips through.'), ('Why do the numbers differ from a raw Toadstone report?', 'We counted conservatively. 403 and 429 answers to a bot are bot walls, not broken pages, so we did not count them. The <a href="methodology.html">methodology page</a> lists every flag we excluded and why.'), ('Is Toadstone free?', 'Yes. Toadstone is free, self-hosted and source-available under the Elastic License 2.0. It is our own tool, so we publish the rules and the data to let you check our work.'), ('Can I reuse the data?', 'Yes. The data and text are CC BY 4.0, so please credit the study and link back. The scripts are MIT licensed.'), ('Can I audit my own site the same way?', 'Yes: clone Toadstone and run its quick audit script against your URL. It crawls up to 200 pages at 2 requests a second or less and prints the three issues most worth fixing.'), ('What if one of these sites wants a row corrected or removed?', 'Open an issue on the repo and we will fix it quickly. Every figure is re-checkable with the curl evidence in the data folder.')]
+FAQ = [('Which sites did you crawl?', 'Semrush, Surfer, Neil Patel, Ahrefs, Search Engine Journal, Yoast, SE Ranking, Search Engine Roundtable, Backlinko and Moz. The first ~300 URLs the crawler reached on each, mostly blog and learn pages.'), ('Were these sites bad at SEO?', 'No. They were mostly excellent: most pages had a meta description, canonical and a single H1. We are showing the few places where even careful teams slip, because it is useful to see what slips through.'), ('Why do the numbers differ from a raw Toadstone report?', 'We counted conservatively. 403 and 429 answers to a bot are bot walls, not broken pages, so we did not count them. The <a href="methodology.html">methodology page</a> lists every flag we excluded and why.'), ('Is Toadstone free?', 'Yes. Toadstone is free, self-hosted and source-available under the Elastic License 2.0. It is our own tool, so we publish the rules and the data to let you check our work.'), ('How does Toadstone compare with Screaming Frog?', 'Honestly: Screaming Frog is stronger on huge sites, per-client projects, support and a desktop app, and Toadstone has no seat fees. The <a href="compare.html">comparison page</a> cites its sources and lists what Toadstone does not do, and the <a href="calculator.html">cost calculator</a> works out the licence maths for your team.'), ('Can I reuse the data?', 'Yes. The data and text are CC BY 4.0, so please credit the study and link back. The scripts are MIT licensed.'), ('Can I audit my own site the same way?', 'Yes: clone Toadstone and run its quick audit script against your URL. It crawls up to 200 pages at 2 requests a second or less and prints the three issues most worth fixing.'), ('What if one of these sites wants a row corrected or removed?', 'Open an issue on the repo and we will fix it quickly. Every figure is re-checkable with the curl evidence in the data folder.')]
 fld = {'@context': 'https://schema.org', '@type': 'FAQPage', 'url': FURL, 'datePublished': STAMP, 'dateModified': STAMP, 'mainEntity': [
     {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in [(q, _re.sub(r'<[^>]+>', '', a)) for q, a in FAQ]]}
 fbody = ''.join(f'<h2>{q}</h2><p>{a}</p>' for q, a in FAQ)
 fpage = shell(f_title, f_desc, FURL, fld, 'FAQ · 23 Oct 2026', 'Frequently asked questions',
               f'Quick answers. The full detail is on the <a href="methodology.html">methodology page</a>, and the numbers are on the <a href="{BASE}">results page</a>.', fbody)
 open(os.path.join(os.path.dirname(OUT), 'faq.html'), 'w').write(fpage)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tools_pages
+TSTAMP = os.environ.get('TOOLS_STAMP', '2026-10-24T07:00:00-04:00')  # when calculator.html / compare.html were written
+tools_pages.build(shell, os.path.dirname(OUT), BASE, TSTAMP, None)
 open(os.path.join(os.path.dirname(OUT), 'sitemap.xml'), 'w').write(f'''<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>{BASE}</loc><lastmod>{STAMP}</lastmod></url>
   <url><loc>{MURL}</loc><lastmod>{STAMP}</lastmod></url>
   <url><loc>{FURL}</loc><lastmod>{STAMP}</lastmod></url>
+  <url><loc>{BASE}calculator.html</loc><lastmod>{TSTAMP}</lastmod></url>
+  <url><loc>{BASE}compare.html</loc><lastmod>{TSTAMP}</lastmod></url>
 </urlset>
 ''')
 open(os.path.join(os.path.dirname(OUT), 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n')

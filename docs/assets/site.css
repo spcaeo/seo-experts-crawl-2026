@@ -93,3 +93,23 @@ table.plain{min-width:720px}td.why{white-space:normal;min-width:320px;text-align
 
 thead th{white-space:normal;vertical-align:bottom;line-height:1.25}
 .media-grid>*,.grid2>*{min-width:0}
+
+/* calculator + comparison pages */
+.disclose{border-color:#4a3d1d;background:#1a1a12;margin:0 0 24px}.disclose p{margin:0}
+.cite{font:12px var(--mono);margin-left:2px}.cite a{text-decoration:none;color:var(--amber);padding:0 1px}.cite a:hover{text-decoration:underline}
+.calc .fields{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px 18px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.calc label{font-weight:600;line-height:1.3}.calc .hint{display:block;font-weight:400;font-size:13.5px;color:var(--muted)}
+.calc input,.calc select{width:100%;font:16px var(--sans);color:var(--ink);background:#0a100d;border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px}
+.calc input:hover,.calc select:hover{border-color:#3a5347}
+@media (max-width:640px){.calc .fields{grid-template-columns:minmax(0,1fr)}}
+.result{margin-top:10px}.result .big{font-size:1.25rem;line-height:1.4}.result .big b{color:var(--amber)}
+.bars{display:grid;gap:10px;margin:18px 0 22px}.barrow{display:grid;grid-template-columns:110px minmax(0,1fr) 90px;gap:12px;align-items:center;font-size:15px}
+.barrow .track{display:block;height:22px;background:#0a100d;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.barrow .fill{display:block;height:100%;border-radius:999px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.barrow .fill.sf{background:var(--amber)}.barrow .fill.ts{background:var(--mint)}.fill.full{width:100%}.fill.zero{width:2px}
+.barrow .bv{font:700 15px var(--mono);text-align:right}
+@media (max-width:640px){.barrow{grid-template-columns:84px minmax(0,1fr) 72px;gap:8px;font-size:13.5px}}
+@media (prefers-reduced-motion:reduce){.barrow .fill{transition:none}}
+table.cmp{min-width:860px}table.cmp th[scope=row]{white-space:normal;min-width:130px;vertical-align:top}table.cmp td{vertical-align:top}table.cmp td.why{min-width:260px}
+.plainedge{color:var(--muted);font-size:14px}
+ol.srcs{padding-left:1.4em}ol.srcs li{margin:8px 0;list-style:none;margin-left:-1.4em;padding-left:0}

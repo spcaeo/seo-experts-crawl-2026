@@ -1,6 +1,6 @@
-Self-audit of http://127.0.0.1:8101/seo-experts-crawl-2026/: 4 URLs crawled
-status codes: {'200': 4}
-  [None] missing_csp x3: e.g. http://127.0.0.1:8101/seo-experts-crawl-2026/
-  [None] missing_x_content_type_options x3: e.g. http://127.0.0.1:8101/seo-experts-crawl-2026/
-  [None] missing_x_frame_options x3: e.g. http://127.0.0.1:8101/seo-experts-crawl-2026/
-  [None] missing_permissions_policy x3: e.g. http://127.0.0.1:8101/seo-experts-crawl-2026/
+Self-audit of http://127.0.0.1:8101/seo-experts-crawl-2026/: 6 URLs crawled
+status codes: {'200': 6}
+  [None] missing_csp x5: e.g. http://127.0.0.1:8101/seo-experts-crawl-2026/
+  [None] missing_x_content_type_options x5: e.g. http://127.0.0.1:8101/seo-experts-crawl-2026/
+  [None] missing_x_frame_options x5: e.g. http://127.0.0.1:8101/seo-experts-crawl-2026/
+  [None] missing_permissions_policy x5: e.g. http://127.0.0.1:8101/seo-experts-crawl-2026/

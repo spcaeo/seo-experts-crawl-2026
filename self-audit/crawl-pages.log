@@ -3,29 +3,35 @@ Submitting task for: http://127.0.0.1:8101/seo-experts-crawl-2026/
 Starting crawl of http://127.0.0.1:8101/seo-experts-crawl-2026/
 Discovering sitemaps for http://127.0.0.1:8101...
 Parsing sitemap: http://127.0.0.1:8101/sitemap.xml
-Found 3 URLs in sitemap
+Found 5 URLs in sitemap
 Parsing sitemap: http://127.0.0.1:8101/sitemap_index.xml
 Parsing sitemap: http://127.0.0.1:8101/sitemaps.xml
 Parsing sitemap: http://127.0.0.1:8101/sitemap/sitemap.xml
 Parsing sitemap: http://127.0.0.1:8101/seo-experts-crawl-2026/sitemap.xml
-Found 3 URLs in sitemap
-Sitemap processing: 6 added, 0 filtered
-Sitemap discovery completed. Total discovered URLs: 3
+Found 5 URLs in sitemap
 Submitting task for: http://127.0.0.1:8101/seo-experts-crawl-2026/methodology.html
-Starting crawl of http://127.0.0.1:8101/seo-experts-crawl-2026/methodology.html
 Added URL to results: http://127.0.0.1:8101/seo-experts-crawl-2026/ - Total in results: 2
-Submitting task for: http://127.0.0.1:8101/seo-experts-crawl-2026/faq.html
-Starting crawl of http://127.0.0.1:8101/seo-experts-crawl-2026/faq.html
+Starting crawl of http://127.0.0.1:8101/seo-experts-crawl-2026/methodology.html
+Submitting task for: http://127.0.0.1:8101/seo-experts-crawl-2026/calculator.html
+Starting crawl of http://127.0.0.1:8101/seo-experts-crawl-2026/calculator.html
+Sitemap processing: 10 added, 0 filtered
+Sitemap discovery completed. Total discovered URLs: 6
 Added URL to results: http://127.0.0.1:8101/seo-experts-crawl-2026/methodology.html - Total in results: 3
-Added URL to results: http://127.0.0.1:8101/seo-experts-crawl-2026/faq.html - Total in results: 4
+Added URL to results: http://127.0.0.1:8101/seo-experts-crawl-2026/calculator.html - Total in results: 4
+Submitting task for: http://127.0.0.1:8101/seo-experts-crawl-2026/compare.html
+Submitting task for: http://127.0.0.1:8101/seo-experts-crawl-2026/faq.html
+Starting crawl of http://127.0.0.1:8101/seo-experts-crawl-2026/compare.html
+Starting crawl of http://127.0.0.1:8101/seo-experts-crawl-2026/faq.html
+Added URL to results: http://127.0.0.1:8101/seo-experts-crawl-2026/compare.html - Total in results: 5
+Added URL to results: http://127.0.0.1:8101/seo-experts-crawl-2026/faq.html - Total in results: 6
 No more URLs to crawl
 Updating linked_from data for all URLs...
-Updated linked_from data for 2 URLs
+Updated linked_from data for 4 URLs
 Running duplication detection...
 Duplication detection complete. Total issues: 0
-Sitemap audit: 3 URLs across 1 file(s), 0 issue(s)
+Sitemap audit: 5 URLs across 1 file(s), 0 issue(s)
 Technical checks: 0 issue(s)
-Header checks: 12 issue(s)
-Link graph: 3 pages, 0 issue(s)
-Crawl completed. Discovered: 3, Crawled: 4
-http://127.0.0.1:8101/seo-experts-crawl-2026/: crawled 4 in 3s, 12 issues -> /workspace/toadstone/experts-study-repo/self-audit/raw-crawl-pages.json
+Header checks: 20 issue(s)
+Link graph: 5 pages, 0 issue(s)
+Crawl completed. Discovered: 6, Crawled: 6
+http://127.0.0.1:8101/seo-experts-crawl-2026/: crawled 6 in 3s, 20 issues -> /workspace/toadstone/experts-study-repo/self-audit/raw-crawl-pages.json
