@@ -1,0 +1,4 @@
+matplotlib
+numpy
+pillow
+# media scripts only: playwright (chromium) and ffmpeg on PATH

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology: how we crawled 10 SEO sites</title>
+<meta name="description" content="How we crawled 10 SEO sites politely (2 requests/second), what we counted, every flag we excluded, and the commands to reproduce it.">
+<link rel="canonical" href="https://spcaeo.github.io/seo-experts-crawl-2026/methodology.html">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Rakesh Patel">
+<meta name="theme-color" content="#0d1411">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Toadstone study">
+<meta property="og:title" content="Methodology: how we crawled 10 SEO sites">
+<meta property="og:description" content="How we crawled 10 SEO sites politely (2 requests/second), what we counted, every flag we excluded, and the commands to reproduce it.">
+<meta property="og:url" content="https://spcaeo.github.io/seo-experts-crawl-2026/methodology.html">
+<meta property="og:image" content="https://spcaeo.github.io/seo-experts-crawl-2026/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="We crawled 10 of the best-known SEO sites: 2,521 pages, 3 broken URLs.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-10-23T20:00:00-04:00">
+<meta property="article:modified_time" content="2026-10-23T20:00:00-04:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Methodology: how we crawled 10 SEO sites">
+<meta name="twitter:description" content="How we crawled 10 SEO sites politely (2 requests/second), what we counted, every flag we excluded, and the commands to reproduce it.">
+<meta name="twitter:image" content="https://spcaeo.github.io/seo-experts-crawl-2026/og-image.png">
+<meta name="twitter:image:alt" content="We crawled 10 of the best-known SEO sites: 2,521 pages, 3 broken URLs.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Methodology: how we crawled 10 SEO sites", "description": "How we crawled 10 SEO sites politely (2 requests/second), what we counted, every flag we excluded, and the commands to reproduce it.", "url": "https://spcaeo.github.io/seo-experts-crawl-2026/methodology.html", "mainEntityOfPage": "https://spcaeo.github.io/seo-experts-crawl-2026/methodology.html", "datePublished": "2026-10-23T20:00:00-04:00", "dateModified": "2026-10-23T20:00:00-04:00", "image": ["https://spcaeo.github.io/seo-experts-crawl-2026/og-image.png"], "isPartOf": {"@type": "WebSite", "name": "Toadstone study", "url": "https://spcaeo.github.io/seo-experts-crawl-2026/"}, "author": {"@type": "Person", "name": "Rakesh Patel", "url": "https://github.com/spcaeo"}, "publisher": {"@type": "Organization", "name": "Toadstone", "url": "https://spcaeo.github.io/toadstone/"}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap"><a class="brand" href="https://spcaeo.github.io/seo-experts-crawl-2026/">Audit the <span>experts</span></a>
+<nav class="links" aria-label="Sections"><a href="https://spcaeo.github.io/seo-experts-crawl-2026/#sites">Per-site table</a><a href="methodology.html">Method</a><a href="faq.html">FAQ</a><a href="https://spcaeo.github.io/seo-experts-crawl-2026/#data">Data</a></nav>
+<a class="btn sm" href="https://spcaeo.github.io/seo-experts-crawl-2026/#run">Audit your site</a></div></header>
+<main id="main"><div class="wrap prose">
+<p class="kicker">Methodology · 23 Oct 2026</p>
+<h1 class="h1s">How we crawled 10 SEO sites, and what we did and didn't count</h1>
+<p class="lede">Short version: polite crawls, conservative rules, every exclusion shown. <a href="https://spcaeo.github.io/seo-experts-crawl-2026/">Back to the results</a> or read the <a href="faq.html">FAQ</a>.</p>
+<h2>The crawl</h2>
+<ul class="clean"><li>Tool: <a href="https://spcaeo.github.io/toadstone/">Toadstone</a>, our own crawler (free, self-hosted, source-available under the Elastic License 2.0). Because we built it, we publish every rule so you can check our work.</li>
+<li>Date: 23 Oct 2026, roughly 18:50–19:27 ET. Examples re-verified with curl 19:45–19:48 ET.</li>
+<li>Limits: up to 300 URLs per site or 25 minutes, whichever came first (four sites hit the time cap, which is why a few have fewer than 300 pages), depth 5, 0.5 s delay, concurrency 2, and a hard global cap of 2 requests per second (including image checks and robots.txt). Sitemaps were not fetched.</li>
+<li>robots.txt respected; no logins; no cookies kept.</li>
+<li>User agent: <code class="mono">ToadstoneBot/1.0 (+https://github.com/spcaeo/toadstone; polite research crawl, &lt;=2 req/s)</code></li>
+<li>Start points: each site's blog or learn hub, or the homepage where there is no hub (see commands below). Scope is the first ~300 URLs the crawler reached, which is a sample, not a census.</li></ul>
+<h2>What counts as an issue</h2>
+<ul class="clean"><li>Page checks only apply to HTML pages that returned HTTP 200.</li>
+<li><b>No meta description</b>, <b>no canonical</b>, <b>no H1</b>, <b>more than one H1</b>: per page.</li>
+<li><b>Content image without alt</b>: a page counts once if it has at least one non-decorative image (not a 1×1 pixel or tracker) with no alt attribute. An empty alt (<code class="mono">alt=""</code>) is valid for decorative images and is not flagged.</li>
+<li><b>Broken URL</b>: an internal URL returning 404, 410 or any 5xx.</li>
+<li><b>Linked URL redirects</b>: an internal URL that returns a 3xx and is linked from another crawled page.</li>
+<li><b>Counted issues</b> = the sum of those seven columns. See the <a href="data/DATA-DICTIONARY.md">data dictionary</a>.</li></ul>
+<h2>What we deliberately did not count</h2>
+<ul class="clean"><li>401, 403, 429 and no-response URLs (177 in total): bot walls, not errors.</li>
+<li>Titles over 60 characters, near-duplicate pages, cross-domain canonicals: informational columns only.</li>
+<li>Flags Toadstone raised that we replaced with a stricter recount or judged to be false positives. Every one is below and in <a href="data/excluded-flags.csv">excluded-flags.csv</a>.</li></ul>
+<div class="tablewrap"><table class="plain"><caption class="note">Toadstone flags excluded from the counts, with the reason</caption><thead><tr><th scope="col">Site</th><th scope="col">Toadstone check</th><th scope="col">Raw flags</th><th scope="col">Why not counted</th></tr></thead><tbody><tr><th scope="row">surfer.ai</th><td>images_missing_alt</td><td>4</td><td class="why">Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt).</td></tr><tr><th scope="row">neilpatel.com</th><td>modified_date_mismatch</td><td>158</td><td class="why">JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.</td></tr><tr><th scope="row">neilpatel.com</th><td>images_missing_alt</td><td>1</td><td class="why">Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt).</td></tr><tr><th scope="row">ahrefs.com</th><td>images_missing_alt</td><td>217</td><td class="why">Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt).</td></tr><tr><th scope="row">searchenginejournal.com</th><td>modified_date_mismatch</td><td>164</td><td class="why">JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.</td></tr><tr><th scope="row">searchenginejournal.com</th><td>canonical_cross_domain</td><td>4</td><td class="why">Checked by hand: 4 syndicated guest posts whose canonical points at the author&#x27;s original article. Correct usage.</td></tr><tr><th scope="row">yoast.com</th><td>canonical_blocked_by_robots</td><td>2</td><td class="why">Target robots.txt sat behind a Cloudflare challenge (401/403), so the block could not be confirmed.</td></tr><tr><th scope="row">yoast.com</th><td>modified_date_mismatch</td><td>204</td><td class="why">JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.</td></tr><tr><th scope="row">yoast.com</th><td>canonical_cross_domain</td><td>2</td><td class="why">Checked by hand: 2 privacy pages canonicalised to the parent company&#x27;s (Newfold) privacy centre. Looks intentional.</td></tr><tr><th scope="row">yoast.com</th><td>images_missing_alt</td><td>3</td><td class="why">Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt).</td></tr><tr><th scope="row">seranking.com</th><td>images_missing_alt</td><td>29</td><td class="why">Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt).</td></tr><tr><th scope="row">seroundtable.com</th><td>links_to_broken_urls</td><td>2</td><td class="why">Toadstone counts 401/403 targets as broken; we recount broken links ourselves using only 404/410/5xx.</td></tr><tr><th scope="row">seroundtable.com</th><td>modified_date_mismatch</td><td>46</td><td class="why">JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.</td></tr><tr><th scope="row">seroundtable.com</th><td>images_missing_alt</td><td>282</td><td class="why">Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt).</td></tr><tr><th scope="row">backlinko.com</th><td>403_client_error</td><td>55</td><td class="why">Bot wall / WAF / signed CDN answered 403 to a non-browser. Not a broken page.</td></tr><tr><th scope="row">backlinko.com</th><td>links_to_broken_urls</td><td>1</td><td class="why">Toadstone counts 401/403 targets as broken; we recount broken links ourselves using only 404/410/5xx.</td></tr><tr><th scope="row">backlinko.com</th><td>modified_date_mismatch</td><td>2</td><td class="why">JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.</td></tr><tr><th scope="row">backlinko.com</th><td>canonical_cross_domain</td><td>1</td><td class="why">Fired on the 404 placeholder URL, not on a live page; page checks only apply to 200 pages.</td></tr><tr><th scope="row">backlinko.com</th><td>images_missing_alt</td><td>51</td><td class="why">Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt).</td></tr><tr><th scope="row">moz.com</th><td>links_to_broken_urls</td><td>1</td><td class="why">Toadstone counts 401/403 targets as broken; we recount broken links ourselves using only 404/410/5xx.</td></tr><tr><th scope="row">moz.com</th><td>modified_date_mismatch</td><td>132</td><td class="why">JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.</td></tr><tr><th scope="row">moz.com</th><td>images_missing_alt</td><td>103</td><td class="why">Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt).</td></tr></tbody></table></div>
+<h2>Reproduce it</h2>
+<p>You need a local Toadstone checkout and Python. Run each crawl (about 5–25 minutes each at 2 requests/second), then build the data and charts from the raw JSON. The raw JSON includes page text, so we do not publish it; the cleaned data is in the repo.</p>
+<pre class="cmd">python scripts/ts_crawl.py https://www.semrush.com/blog/ raw/semrush.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500 --include &#x27;^https://www\.semrush\.com/blog&#x27;
+python scripts/ts_crawl.py https://surfer.ai/blog/ raw/surfer.ai.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500 --include &#x27;^https://surfer\.ai/blog&#x27;
+python scripts/ts_crawl.py https://neilpatel.com/blog/ raw/neilpatel.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500 --include &#x27;^https://neilpatel\.com/blog&#x27;
+python scripts/ts_crawl.py https://ahrefs.com/blog/ raw/ahrefs.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500 --include &#x27;^https://ahrefs\.com/blog&#x27;
+python scripts/ts_crawl.py https://www.searchenginejournal.com/ raw/searchenginejournal.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500
+python scripts/ts_crawl.py https://yoast.com/seo-blog/ raw/yoast.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500 --include &#x27;^https://yoast\.com/&#x27;
+python scripts/ts_crawl.py https://seranking.com/blog/ raw/seranking.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500 --include &#x27;^https://seranking\.com/blog&#x27;
+python scripts/ts_crawl.py https://www.seroundtable.com/ raw/seroundtable.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500
+python scripts/ts_crawl.py https://backlinko.com/ raw/backlinko.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500
+python scripts/ts_crawl.py https://moz.com/learn/seo raw/moz.com.json --max 300 --delay 0.5 --concurrency 2 --rps 2 --depth 5 --timeout 1500 --include &#x27;^https://moz\.com/(learn|blog)&#x27;
+python scripts/build_data.py raw/
+python scripts/verify_examples.py
+python scripts/build_web_data.py && python scripts/make_charts.py && python scripts/build_page.py</pre>
+<p>Found a mistake? <a href="https://github.com/spcaeo/seo-experts-crawl-2026/issues">Open an issue</a>. If you run one of these sites and want a row updated or removed, we will do it quickly.</p>
+
+</div></main>
+<footer><div class="wrap"><p>Data and text CC BY 4.0 · Code MIT · <a href="https://spcaeo.github.io/seo-experts-crawl-2026/">Home</a> · <a href="methodology.html">Method</a> · <a href="faq.html">FAQ</a> · <a href="https://github.com/spcaeo/seo-experts-crawl-2026">GitHub</a></p></div></footer>
+</body></html>

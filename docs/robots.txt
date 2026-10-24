@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://spcaeo.github.io/seo-experts-crawl-2026/sitemap.xml

@@ -1,0 +1,23 @@
+site,toadstone_check,raw_flags,why_not_counted
+surfer.ai,images_missing_alt,4,"Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt)."
+neilpatel.com,modified_date_mismatch,158,JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.
+neilpatel.com,images_missing_alt,1,"Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt)."
+ahrefs.com,images_missing_alt,217,"Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt)."
+searchenginejournal.com,modified_date_mismatch,164,JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.
+searchenginejournal.com,canonical_cross_domain,4,Checked by hand: 4 syndicated guest posts whose canonical points at the author's original article. Correct usage.
+yoast.com,canonical_blocked_by_robots,2,"Target robots.txt sat behind a Cloudflare challenge (401/403), so the block could not be confirmed."
+yoast.com,modified_date_mismatch,204,JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.
+yoast.com,canonical_cross_domain,2,Checked by hand: 2 privacy pages canonicalised to the parent company's (Newfold) privacy centre. Looks intentional.
+yoast.com,images_missing_alt,3,"Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt)."
+seranking.com,images_missing_alt,29,"Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt)."
+seroundtable.com,links_to_broken_urls,2,Toadstone counts 401/403 targets as broken; we recount broken links ourselves using only 404/410/5xx.
+seroundtable.com,modified_date_mismatch,46,JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.
+seroundtable.com,images_missing_alt,282,"Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt)."
+backlinko.com,403_client_error,55,Bot wall / WAF / signed CDN answered 403 to a non-browser. Not a broken page.
+backlinko.com,links_to_broken_urls,1,Toadstone counts 401/403 targets as broken; we recount broken links ourselves using only 404/410/5xx.
+backlinko.com,modified_date_mismatch,2,JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.
+backlinko.com,canonical_cross_domain,1,"Fired on the 404 placeholder URL, not on a live page; page checks only apply to 200 pages."
+backlinko.com,images_missing_alt,51,"Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt)."
+moz.com,links_to_broken_urls,1,Toadstone counts 401/403 targets as broken; we recount broken links ourselves using only 404/410/5xx.
+moz.com,modified_date_mismatch,132,JSON-LD date vs HTTP Last-Modified is noisy behind CDNs.
+moz.com,images_missing_alt,103,"Replaced by our own recount from the image data, which drops tracking pixels and 1x1 images (see pages_content_img_no_alt)."

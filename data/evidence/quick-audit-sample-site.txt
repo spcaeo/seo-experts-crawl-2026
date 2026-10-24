@@ -1,0 +1,5 @@
+Toadstone quick audit: http://localhost:8099/  (7 pages fetched OK, 19 requests, 12s)
+• 1 internal URL(s) return 404/410/5xx. e.g. http://localhost:8099/guides/soil-ph/ (linked from http://localhost:8099/blog/composting/)
+• 1 internally linked URL(s) redirect (link straight to the final URL). e.g. http://localhost:8099/old-sale/
+• 2 page(s) share a duplicate <title>. e.g. http://localhost:8099/shop/
+(full JSON: /tmp/tmp.0pk5emHDqY/audit.json)
