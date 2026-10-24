@@ -1,0 +1,947 @@
+{
+ "crawl_id": 1,
+ "cmdA": [
+  "/workspace/toadstone/venv/bin/python",
+  "-m",
+  "src.mcp",
+  "--allow-writes",
+  "--allow-host",
+  "localhost",
+  "--max-urls",
+  "100"
+ ],
+ "cmdB": [
+  "/workspace/toadstone/venv/bin/python",
+  "-m",
+  "src.mcp",
+  "--url",
+  "http://localhost:5057"
+ ],
+ "tools_list": {
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+   "tools": [
+    {
+     "name": "list_crawls",
+     "description": "Recent crawls in this Toadstone, newest first: id, URL, status and page counts. Start here when you do not have a crawl id.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "limit": {
+        "type": "integer",
+        "description": "How many crawls to return (default 20)."
+       },
+       "status": {
+        "type": "string",
+        "description": "Only crawls in this state, e.g. 'completed' or 'running'."
+       }
+      },
+      "required": [],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "crawl_status",
+     "description": "Progress of one crawl: status, pages done, pages found and an ETA. Poll this after start_crawl.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "crawl_id": {
+        "type": "integer",
+        "description": "A crawl id, as list_crawls reports it."
+       }
+      },
+      "required": [
+       "crawl_id"
+      ],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "start_crawl",
+     "description": "Start a crawl and return its id. Writes, so it is refused unless this server was started with writes enabled, and the target host must be on the allow-list.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "The http(s) URL to start from."
+       },
+       "render": {
+        "type": "boolean",
+        "description": "Render with a headless browser. Much slower; needed for JS-built pages."
+       },
+       "max_urls": {
+        "type": "integer",
+        "description": "Stop after this many URLs. Defaults to the server cap, and may not exceed it."
+       },
+       "max_depth": {
+        "type": "integer",
+        "description": "Maximum click depth from the start URL."
+       }
+      },
+      "required": [
+       "url"
+      ],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "list_issues",
+     "description": "Issues from one crawl, filterable by severity, check, category and URL prefix, with a tally by severity and by check. Each issue carries its stable id, its evidence and how to fix it.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "crawl_id": {
+        "type": "integer",
+        "description": "A crawl id, as list_crawls reports it."
+       },
+       "severity": {
+        "type": "string",
+        "description": "'error', 'warning' or 'info'; comma-separate for several."
+       },
+       "check": {
+        "type": "string",
+        "description": "Check slug, e.g. 'missing_meta_description'; comma-separate for several."
+       },
+       "category": {
+        "type": "string",
+        "description": "Category, e.g. 'Technical'."
+       },
+       "url_prefix": {
+        "type": "string",
+        "description": "Only URLs starting with this."
+       },
+       "status": {
+        "type": "string",
+        "description": "'open' or 'accepted'."
+       },
+       "since_crawl": {
+        "type": "integer",
+        "description": "Only issues new since this crawl id."
+       },
+       "include_accepted": {
+        "type": "boolean",
+        "description": "Include muted issues (default false)."
+       },
+       "limit": {
+        "type": "integer",
+        "description": "How many issues to return (default 50)."
+       },
+       "offset": {
+        "type": "integer",
+        "description": "Skip this many first."
+       }
+      },
+      "required": [
+       "crawl_id"
+      ],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "issue_detail",
+     "description": "One issue by its stable id, with a summary of the page it was found on. The crawl id is required: an issue id is stable across crawls, so it alone does not identify one row.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "crawl_id": {
+        "type": "integer",
+        "description": "A crawl id, as list_crawls reports it."
+       },
+       "issue_id": {
+        "type": "string",
+        "description": "The stable issue id."
+       }
+      },
+      "required": [
+       "crawl_id",
+       "issue_id"
+      ],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "page_detail",
+     "description": "Everything known about one URL in one crawl: the stored row, its issues, inbound and outbound links, and how it changed against the previous crawl of the site.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "crawl_id": {
+        "type": "integer",
+        "description": "A crawl id, as list_crawls reports it."
+       },
+       "url": {
+        "type": "string",
+        "description": "The exact URL, as the crawl stored it."
+       },
+       "baseline": {
+        "type": "integer",
+        "description": "Crawl id to diff against. Defaults to the previous crawl of this domain."
+       },
+       "include_links": {
+        "type": "boolean",
+        "description": "Include link rows, not just counts (default true)."
+       },
+       "link_limit": {
+        "type": "integer",
+        "description": "Link rows per direction (default 25)."
+       }
+      },
+      "required": [
+       "crawl_id",
+       "url"
+      ],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "regression_diff",
+     "description": "What changed between two crawls: issues that are new, fixed, and still open, matched by stable issue id.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "baseline_crawl_id": {
+        "type": "integer",
+        "description": "The earlier crawl."
+       },
+       "candidate_crawl_id": {
+        "type": "integer",
+        "description": "The crawl being judged."
+       },
+       "limit": {
+        "type": "integer",
+        "description": "Issues per section (default 25)."
+       }
+      },
+      "required": [
+       "baseline_crawl_id",
+       "candidate_crawl_id"
+      ],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "export_dataset",
+     "description": "Export one dataset from a crawl as text. Datasets: issues, pages, links, graph-nodes, graph-edges, sitemap-files, sitemap-coverage, duplicates, redirects, broken-links, headings, images. Formats: csv, json, ndjson (xlsx and zip are downloads, not MCP results).",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "crawl_id": {
+        "type": "integer",
+        "description": "A crawl id, as list_crawls reports it."
+       },
+       "dataset": {
+        "type": "string",
+        "enum": [
+         "issues",
+         "pages",
+         "links",
+         "graph-nodes",
+         "graph-edges",
+         "sitemap-files",
+         "sitemap-coverage",
+         "duplicates",
+         "redirects",
+         "broken-links",
+         "headings",
+         "images"
+        ],
+        "description": "Which dataset."
+       },
+       "format": {
+        "type": "string",
+        "enum": [
+         "csv",
+         "json",
+         "ndjson"
+        ],
+        "description": "Serialisation (default csv)."
+       },
+       "limit": {
+        "type": "integer",
+        "description": "Rows to keep, for csv and ndjson."
+       },
+       "severity": {
+        "type": "string",
+        "description": "Filter, where the dataset has a severity column."
+       },
+       "check": {
+        "type": "string",
+        "description": "Filter, where the dataset has a check column."
+       },
+       "url_prefix": {
+        "type": "string",
+        "description": "Only rows whose URL starts with this."
+       },
+       "status_code": {
+        "type": "integer",
+        "description": "Only rows with this HTTP status."
+       }
+      },
+      "required": [
+       "crawl_id",
+       "dataset"
+      ],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "check_reference",
+     "description": "What a check means, how severe it is and how to fix it. With no argument, the whole reference for this install.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "check": {
+        "type": "string",
+        "description": "A check slug."
+       }
+      },
+      "required": [],
+      "additionalProperties": false
+     }
+    },
+    {
+     "name": "accept_issue",
+     "description": "Mute one issue with a reason, so it stops being reported as open. Writes, so it is refused on a read-only server.",
+     "inputSchema": {
+      "type": "object",
+      "properties": {
+       "issue_id": {
+        "type": "string",
+        "description": "The stable issue id."
+       },
+       "reason": {
+        "type": "string",
+        "description": "Why this is acceptable. Required."
+       },
+       "base_domain": {
+        "type": "string",
+        "description": "Scope the acceptance to one domain."
+       }
+      },
+      "required": [
+       "issue_id",
+       "reason"
+      ],
+      "additionalProperties": false
+     }
+    }
+   ]
+  }
+ },
+ "calls": [
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+     "protocolVersion": "2025-06-18",
+     "capabilities": {},
+     "clientInfo": {
+      "name": "demo-agent",
+      "version": "0"
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+     "protocolVersion": "2025-06-18",
+     "capabilities": {
+      "tools": {
+       "listChanged": false
+      }
+     },
+     "serverInfo": {
+      "name": "toadstone",
+      "version": "1.0.0"
+     },
+     "instructions": "Toadstone is an SEO crawler. Crawls have numeric ids; issues have ids that are stable across crawls, so the same defect keeps its id until it is fixed.\n\nStart with list_crawls to find a crawl id, then list_issues for what is wrong, page_detail for one URL, and regression_diff to compare two crawls. check_reference explains any check slug.\n\nGuardrails: read-write; crawls allowed against localhost; at most 100 URLs per crawl."
+    }
+   },
+   "seconds": 0.13
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/list"
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "result": {
+     "tools": [
+      {
+       "name": "list_crawls",
+       "description": "Recent crawls in this Toadstone, newest first: id, URL, status and page counts. Start here when you do not have a crawl id.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "limit": {
+          "type": "integer",
+          "description": "How many crawls to return (default 20)."
+         },
+         "status": {
+          "type": "string",
+          "description": "Only crawls in this state, e.g. 'completed' or 'running'."
+         }
+        },
+        "required": [],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "crawl_status",
+       "description": "Progress of one crawl: status, pages done, pages found and an ETA. Poll this after start_crawl.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "crawl_id": {
+          "type": "integer",
+          "description": "A crawl id, as list_crawls reports it."
+         }
+        },
+        "required": [
+         "crawl_id"
+        ],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "start_crawl",
+       "description": "Start a crawl and return its id. Writes, so it is refused unless this server was started with writes enabled, and the target host must be on the allow-list.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "url": {
+          "type": "string",
+          "description": "The http(s) URL to start from."
+         },
+         "render": {
+          "type": "boolean",
+          "description": "Render with a headless browser. Much slower; needed for JS-built pages."
+         },
+         "max_urls": {
+          "type": "integer",
+          "description": "Stop after this many URLs. Defaults to the server cap, and may not exceed it."
+         },
+         "max_depth": {
+          "type": "integer",
+          "description": "Maximum click depth from the start URL."
+         }
+        },
+        "required": [
+         "url"
+        ],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "list_issues",
+       "description": "Issues from one crawl, filterable by severity, check, category and URL prefix, with a tally by severity and by check. Each issue carries its stable id, its evidence and how to fix it.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "crawl_id": {
+          "type": "integer",
+          "description": "A crawl id, as list_crawls reports it."
+         },
+         "severity": {
+          "type": "string",
+          "description": "'error', 'warning' or 'info'; comma-separate for several."
+         },
+         "check": {
+          "type": "string",
+          "description": "Check slug, e.g. 'missing_meta_description'; comma-separate for several."
+         },
+         "category": {
+          "type": "string",
+          "description": "Category, e.g. 'Technical'."
+         },
+         "url_prefix": {
+          "type": "string",
+          "description": "Only URLs starting with this."
+         },
+         "status": {
+          "type": "string",
+          "description": "'open' or 'accepted'."
+         },
+         "since_crawl": {
+          "type": "integer",
+          "description": "Only issues new since this crawl id."
+         },
+         "include_accepted": {
+          "type": "boolean",
+          "description": "Include muted issues (default false)."
+         },
+         "limit": {
+          "type": "integer",
+          "description": "How many issues to return (default 50)."
+         },
+         "offset": {
+          "type": "integer",
+          "description": "Skip this many first."
+         }
+        },
+        "required": [
+         "crawl_id"
+        ],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "issue_detail",
+       "description": "One issue by its stable id, with a summary of the page it was found on. The crawl id is required: an issue id is stable across crawls, so it alone does not identify one row.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "crawl_id": {
+          "type": "integer",
+          "description": "A crawl id, as list_crawls reports it."
+         },
+         "issue_id": {
+          "type": "string",
+          "description": "The stable issue id."
+         }
+        },
+        "required": [
+         "crawl_id",
+         "issue_id"
+        ],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "page_detail",
+       "description": "Everything known about one URL in one crawl: the stored row, its issues, inbound and outbound links, and how it changed against the previous crawl of the site.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "crawl_id": {
+          "type": "integer",
+          "description": "A crawl id, as list_crawls reports it."
+         },
+         "url": {
+          "type": "string",
+          "description": "The exact URL, as the crawl stored it."
+         },
+         "baseline": {
+          "type": "integer",
+          "description": "Crawl id to diff against. Defaults to the previous crawl of this domain."
+         },
+         "include_links": {
+          "type": "boolean",
+          "description": "Include link rows, not just counts (default true)."
+         },
+         "link_limit": {
+          "type": "integer",
+          "description": "Link rows per direction (default 25)."
+         }
+        },
+        "required": [
+         "crawl_id",
+         "url"
+        ],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "regression_diff",
+       "description": "What changed between two crawls: issues that are new, fixed, and still open, matched by stable issue id.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "baseline_crawl_id": {
+          "type": "integer",
+          "description": "The earlier crawl."
+         },
+         "candidate_crawl_id": {
+          "type": "integer",
+          "description": "The crawl being judged."
+         },
+         "limit": {
+          "type": "integer",
+          "description": "Issues per section (default 25)."
+         }
+        },
+        "required": [
+         "baseline_crawl_id",
+         "candidate_crawl_id"
+        ],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "export_dataset",
+       "description": "Export one dataset from a crawl as text. Datasets: issues, pages, links, graph-nodes, graph-edges, sitemap-files, sitemap-coverage, duplicates, redirects, broken-links, headings, images. Formats: csv, json, ndjson (xlsx and zip are downloads, not MCP results).",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "crawl_id": {
+          "type": "integer",
+          "description": "A crawl id, as list_crawls reports it."
+         },
+         "dataset": {
+          "type": "string",
+          "enum": [
+           "issues",
+           "pages",
+           "links",
+           "graph-nodes",
+           "graph-edges",
+           "sitemap-files",
+           "sitemap-coverage",
+           "duplicates",
+           "redirects",
+           "broken-links",
+           "headings",
+           "images"
+          ],
+          "description": "Which dataset."
+         },
+         "format": {
+          "type": "string",
+          "enum": [
+           "csv",
+           "json",
+           "ndjson"
+          ],
+          "description": "Serialisation (default csv)."
+         },
+         "limit": {
+          "type": "integer",
+          "description": "Rows to keep, for csv and ndjson."
+         },
+         "severity": {
+          "type": "string",
+          "description": "Filter, where the dataset has a severity column."
+         },
+         "check": {
+          "type": "string",
+          "description": "Filter, where the dataset has a check column."
+         },
+         "url_prefix": {
+          "type": "string",
+          "description": "Only rows whose URL starts with this."
+         },
+         "status_code": {
+          "type": "integer",
+          "description": "Only rows with this HTTP status."
+         }
+        },
+        "required": [
+         "crawl_id",
+         "dataset"
+        ],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "check_reference",
+       "description": "What a check means, how severe it is and how to fix it. With no argument, the whole reference for this install.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "check": {
+          "type": "string",
+          "description": "A check slug."
+         }
+        },
+        "required": [],
+        "additionalProperties": false
+       }
+      },
+      {
+       "name": "accept_issue",
+       "description": "Mute one issue with a reason, so it stops being reported as open. Writes, so it is refused on a read-only server.",
+       "inputSchema": {
+        "type": "object",
+        "properties": {
+         "issue_id": {
+          "type": "string",
+          "description": "The stable issue id."
+         },
+         "reason": {
+          "type": "string",
+          "description": "Why this is acceptable. Required."
+         },
+         "base_domain": {
+          "type": "string",
+          "description": "Scope the acceptance to one domain."
+         }
+        },
+        "required": [
+         "issue_id",
+         "reason"
+        ],
+        "additionalProperties": false
+       }
+      }
+     ]
+    }
+   },
+   "seconds": 0.0
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/call",
+    "params": {
+     "name": "start_crawl",
+     "arguments": {
+      "url": "http://localhost:8099/",
+      "max_urls": 50
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 3,
+    "result": {
+     "content": [
+      {
+       "type": "text",
+       "text": "{\n  \"crawl_id\": 1,\n  \"url\": \"http://localhost:8099/\",\n  \"max_urls\": 50,\n  \"render\": false,\n  \"next\": \"Poll crawl_status with this crawl_id until status is \\\"completed\\\", then call list_issues.\"\n}"
+      }
+     ],
+     "isError": false
+    }
+   },
+   "seconds": 0.02
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 4,
+    "method": "tools/call",
+    "params": {
+     "name": "crawl_status",
+     "arguments": {
+      "crawl_id": 1
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 4,
+    "result": {
+     "content": [
+      {
+       "type": "text",
+       "text": "{\n  \"completed_at\": null,\n  \"crawl_id\": 1,\n  \"eta_seconds\": null,\n  \"pages_done\": 0,\n  \"pages_total\": 0,\n  \"progress\": 0.0,\n  \"started_at\": \"2026-10-24 11:14:49\",\n  \"status\": \"running\",\n  \"success\": true,\n  \"url\": \"http://localhost:8099\"\n}"
+      }
+     ],
+     "isError": false
+    }
+   },
+   "seconds": 0.0
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 5,
+    "method": "tools/call",
+    "params": {
+     "name": "crawl_status",
+     "arguments": {
+      "crawl_id": 1
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 5,
+    "result": {
+     "content": [
+      {
+       "type": "text",
+       "text": "{\n  \"completed_at\": \"2026-10-24 11:14:50\",\n  \"crawl_id\": 1,\n  \"eta_seconds\": null,\n  \"pages_done\": 9,\n  \"pages_total\": 9,\n  \"progress\": 100.0,\n  \"started_at\": \"2026-10-24 11:14:49\",\n  \"status\": \"completed\",\n  \"success\": true,\n  \"url\": \"http://localhost:8099\"\n}"
+      }
+     ],
+     "isError": false
+    }
+   },
+   "seconds": 0.0
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 6,
+    "method": "tools/call",
+    "params": {
+     "name": "list_issues",
+     "arguments": {
+      "crawl_id": 1,
+      "severity": "error",
+      "limit": 50
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 6,
+    "result": {
+     "content": [
+      {
+       "type": "text",
+       "text": "{\n  \"crawl_id\": 1,\n  \"total\": 18,\n  \"offset\": 0,\n  \"count\": 18,\n  \"by_severity\": {\n    \"error\": 18\n  },\n  \"by_check\": {\n    \"no_structured_data\": 8,\n    \"missing_meta_description\": 7,\n    \"404_client_error\": 1,\n    \"missing_viewport\": 1,\n    \"sitemap_file_error\": 1\n  },\n  \"issues\": [\n    {\n      \"id\": \"f73195694dac4e48d6d2d93daecc9c11216c97a8\",\n      \"url\": \"http://localhost:8099/guides/soil-ph/\",\n      \"check\": \"404_client_error\",\n      \"type\": \"error\",\n      \"category\": \"Technical\",\n      \"issue\": \"404 Client Error\",\n      \"details\": \"Not Found\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#404_client_error\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"01a07b4a21dd9012852c6f6b18f1894d80081e2f\",\n      \"url\": \"http://localhost:8099/blog/\",\n      \"check\": \"missing_meta_description\",\n      \"type\": \"error\",\n      \"category\": \"SEO\",\n      \"issue\": \"Missing Meta Description\",\n      \"details\": \"Page has no meta description\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_meta_description\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"cf72131889a7fe97f03c2cdf2a4655072a8f2016\",\n      \"url\": \"http://localhost:8099/blog/composting/\",\n      \"check\": \"missing_meta_description\",\n      \"type\": \"error\",\n      \"category\": \"SEO\",\n      \"issue\": \"Missing Meta Description\",\n      \"details\": \"Page has no meta description\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_meta_description\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"d360c44d75beec19f5176b509cff838f536a1236\",\n      \"url\": \"http://localhost:8099/blog/seeds/\",\n      \"check\": \"missing_meta_description\",\n      \"type\": \"error\",\n      \"category\": \"SEO\",\n      \"issue\": \"Missing Meta Description\",\n      \"details\": \"Page has no meta description\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_meta_description\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"3166b08b9c03dcaec8853e1d83ec9e4920029ea1\",\n      \"url\": \"http://localhost:8099/guides/soil-ph/\",\n      \"check\": \"missing_meta_description\",\n      \"type\": \"error\",\n      \"category\": \"SEO\",\n      \"issue\": \"Missing Meta Description\",\n      \"details\": \"Page has no meta description\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_meta_description\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"80356864f78c0b61613a3044fc545e56789d0f9a\",\n      \"url\": \"http://localhost:8099/old-sale/\",\n      \"check\": \"missing_meta_description\",\n      \"type\": \"error\",\n      \"category\": \"SEO\",\n      \"issue\": \"Missing Meta Description\",\n      \"details\": \"Page has no meta description\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_meta_description\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"f1e0fc98d7daac0cd94724a27db5b0ea02f2f1c5\",\n      \"url\": \"http://localhost:8099/shop/\",\n      \"check\": \"missing_meta_description\",\n      \"type\": \"error\",\n      \"category\": \"SEO\",\n      \"issue\": \"Missing Meta Description\",\n      \"details\": \"Page has no meta description\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_meta_description\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"16d04f4fb808d31f41a47b8b3a0db71657d1f60f\",\n      \"url\": \"http://localhost:8099/shop/rakes/\",\n      \"check\": \"missing_meta_description\",\n      \"type\": \"error\",\n      \"category\": \"SEO\",\n      \"issue\": \"Missing Meta Description\",\n      \"details\": \"Page has no meta description\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_meta_description\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"a9d0522eea878c382fbb4d191fc2e53dbaf94372\",\n      \"url\": \"http://localhost:8099/guides/soil-ph/\",\n      \"check\": \"missing_viewport\",\n      \"type\": \"error\",\n      \"category\": \"Mobile\",\n      \"issue\": \"Missing Viewport Meta Tag\",\n      \"details\": \"Page is not mobile-optimized\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_viewport\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"15b02be650c13f97e5a1e2af148e5ab96dd9e2fd\",\n      \"url\": \"http://localhost:8099/\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"123a6b3c89334b1277e1ce9b235b0bc08de82f51\",\n      \"url\": \"http://localhost:8099/blog/\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"1ba7f39447edc55d540069ff0794ce4d960c9ca7\",\n      \"url\": \"http://localhost:8099/blog/composting/\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"eba59256b46a2106868c34dbf5ab14afd2bade44\",\n      \"url\": \"http://localhost:8099/blog/seeds/\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"ddd9a0f6fdd662594f91888cb27f64da41bfaa86\",\n      \"url\": \"http://localhost:8099/guides/soil-ph/\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"1f8c9ef2516bf116b7a1e3d786f00be37206b94f\",\n      \"url\": \"http://localhost:8099/old-sale/\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"201fe6ab41765d597f06b141dbe4c00a4e8ecbc3\",\n      \"url\": \"http://localhost:8099/shop/\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"0bcf0b9c9c8baa9957ee97922a59569a88292f07\",\n      \"url\": \"http://localhost:8099/shop/rakes/\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"55b02c5d48cebdc522c1021eeaa25041244bf8c4\",\n      \"url\": \"http://localhost:8099/sitemap.xml\",\n      \"check\": \"sitemap_file_error\",\n      \"type\": \"error\",\n      \"category\": \"Sitemap\",\n      \"issue\": \"Sitemap File Error\",\n      \"details\": \"Sitemap file could not be read (HTTP 404).\",\n      \"evidence\": {\n        \"found\": \"HTTP 404\"\n      },\n      \"how_to_fix\": \"Serve every sitemap file listed in robots.txt and in the index with HTTP 200 and valid XML.\",\n      \"docs_url\": \"/checks#sitemap_file_error\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    }\n  ]\n}"
+      }
+     ],
+     "isError": false
+    }
+   },
+   "seconds": 0.01
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 7,
+    "method": "tools/call",
+    "params": {
+     "name": "check_reference",
+     "arguments": {
+      "check": "missing_meta_description"
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 7,
+    "result": {
+     "content": [
+      {
+       "type": "text",
+       "text": "{\n  \"check\": {\n    \"category\": \"SEO\",\n    \"check\": \"missing_meta_description\",\n    \"crawls\": 1,\n    \"example\": \"Page has no meta description\",\n    \"how_to_fix\": \"\",\n    \"name\": \"Missing Meta Description\",\n    \"pages\": 7,\n    \"reported\": 7,\n    \"severity\": \"error\"\n  }\n}"
+      }
+     ],
+     "isError": false
+    }
+   },
+   "seconds": 0.0
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 8,
+    "method": "tools/call",
+    "params": {
+     "name": "page_detail",
+     "arguments": {
+      "crawl_id": 1,
+      "url": "http://localhost:8099/shop/rakes/",
+      "link_limit": 5
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 8,
+    "result": {
+     "content": [
+      {
+       "type": "text",
+       "text": "{\n  \"crawl_id\": 1,\n  \"url\": \"http://localhost:8099/shop/rakes/\",\n  \"page\": {\n    \"url\": \"http://localhost:8099/shop/rakes/\",\n    \"status_code\": 200,\n    \"content_type\": \"text/html\",\n    \"title\": \"Rakes\",\n    \"meta_description\": \"\",\n    \"h1\": \"Rakes\",\n    \"canonical_url\": \"\",\n    \"lang\": \"en\",\n    \"word_count\": 2,\n    \"main_word_count\": 3,\n    \"depth\": 2,\n    \"is_internal\": 1,\n    \"javascript_rendered\": 0,\n    \"redirects\": [],\n    \"hreflang\": [],\n    \"main_text_hash\": \"542dc697207d3986f77842833b2d44371a1bc733\",\n    \"http\": {\n      \"cache_control\": \"\",\n      \"content_length\": 243,\n      \"content_type\": \"text/html\",\n      \"crawled_at\": \"2026-10-24 11:14:50\",\n      \"error_type\": null,\n      \"etag\": \"\",\n      \"javascript_rendered\": 0,\n      \"last_modified\": \"Fri, 23 Oct 2026 23:49:53 GMT\",\n      \"processing_time\": 7.14,\n      \"redirects\": [],\n      \"render_time\": null,\n      \"response_time\": 9.26,\n      \"size\": 243,\n      \"status_code\": 200,\n      \"ttfb\": 6.62\n    },\n    \"headings\": [\n      {\n        \"children\": [],\n        \"dom_order\": 0,\n        \"is_visible\": true,\n        \"level\": 1,\n        \"text\": \"Rakes\"\n      }\n    ],\n    \"heading_text_issues\": [],\n    \"image_count\": 0,\n    \"images_missing_alt\": 0,\n    \"schema_types\": []\n  },\n  \"issue_count\": 7,\n  \"issues\": [\n    {\n      \"id\": \"16d04f4fb808d31f41a47b8b3a0db71657d1f60f\",\n      \"check\": \"missing_meta_description\",\n      \"type\": \"error\",\n      \"category\": \"SEO\",\n      \"issue\": \"Missing Meta Description\",\n      \"details\": \"Page has no meta description\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_meta_description\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"0bcf0b9c9c8baa9957ee97922a59569a88292f07\",\n      \"check\": \"no_structured_data\",\n      \"type\": \"error\",\n      \"category\": \"Structured Data\",\n      \"issue\": \"No Structured Data\",\n      \"details\": \"Page has no JSON-LD or Schema.org markup\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#no_structured_data\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"a31722ca87119f514ac419d0397f8863d3e95cb9\",\n      \"check\": \"missing_canonical\",\n      \"type\": \"warning\",\n      \"category\": \"Technical\",\n      \"issue\": \"Missing Canonical URL\",\n      \"details\": \"Page has no canonical URL specified\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_canonical\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"95f7d02eacd3f900ccd4dc9aed4e64f97f7aac0b\",\n      \"check\": \"missing_opengraph\",\n      \"type\": \"warning\",\n      \"category\": \"Social\",\n      \"issue\": \"Missing OpenGraph Tags\",\n      \"details\": \"Page has no OpenGraph tags for social sharing\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_opengraph\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"46f3f567d4a8c2be0b997174db08a5e8076115ec\",\n      \"check\": \"missing_twitter_card\",\n      \"type\": \"warning\",\n      \"category\": \"Social\",\n      \"issue\": \"Missing Twitter Card Tags\",\n      \"details\": \"Page has no Twitter Card tags\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#missing_twitter_card\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"0931b02794fda68e9219560f5ddaf8cb7759d3da\",\n      \"check\": \"thin_content\",\n      \"type\": \"warning\",\n      \"category\": \"Content\",\n      \"issue\": \"Thin Content\",\n      \"details\": \"Page has only 2 words (recommended: \\u2265300)\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#thin_content\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    },\n    {\n      \"id\": \"6057a8b9062130fb5f996b8bb8bb2fcf2ee29c9b\",\n      \"check\": \"title_too_short\",\n      \"type\": \"warning\",\n      \"category\": \"SEO\",\n      \"issue\": \"Title Too Short\",\n      \"details\": \"Title is 5 characters (recommended: 30-60)\",\n      \"evidence\": {},\n      \"how_to_fix\": \"\",\n      \"docs_url\": \"/checks#title_too_short\",\n      \"first_seen_crawl\": 1,\n      \"status\": \"open\",\n      \"accepted_reason\": null\n    }\n  ],\n  \"link_counts\": {\n    \"inbound\": 3,\n    \"outbound\": 2,\n    \"outbound_external\": 0,\n    \"outbound_internal\": 2\n  },\n  \"diff\": null,\n  \"note\": \"No earlier completed crawl of this domain to compare against.\",\n  \"links\": {\n    \"inbound\": [\n      {\n        \"anchor_text\": \"Rakes\",\n        \"in_heading\": 0,\n        \"in_main\": 0,\n        \"in_nav\": 0,\n        \"is_internal\": 1,\n        \"link_target\": \"\",\n        \"nofollow\": 0,\n        \"placement\": \"body\",\n        \"rel\": \"\",\n        \"source_url\": \"http://localhost:8099/blog/composting/\",\n        \"target_domain\": \"localhost:8099\",\n        \"target_status\": 200,\n        \"target_url\": \"http://localhost:8099/shop/rakes/\"\n      },\n      {\n        \"anchor_text\": \"Rakes\",\n        \"in_heading\": 0,\n        \"in_main\": 0,\n        \"in_nav\": 0,\n        \"is_internal\": 1,\n        \"link_target\": \"\",\n        \"nofollow\": 0,\n        \"placement\": \"body\",\n        \"rel\": \"\",\n        \"source_url\": \"http://localhost:8099/old-sale/\",\n        \"target_domain\": \"localhost:8099\",\n        \"target_status\": null,\n        \"target_url\": \"http://localhost:8099/shop/rakes/\"\n      },\n      {\n        \"anchor_text\": \"Rakes\",\n        \"in_heading\": 0,\n        \"in_main\": 0,\n        \"in_nav\": 0,\n        \"is_internal\": 1,\n        \"link_target\": \"\",\n        \"nofollow\": 0,\n        \"placement\": \"body\",\n        \"rel\": \"\",\n        \"source_url\": \"http://localhost:8099/shop/\",\n        \"target_domain\": \"localhost:8099\",\n        \"target_status\": null,\n        \"target_url\": \"http://localhost:8099/shop/rakes/\"\n      }\n    ],\n    \"outbound\": [\n      {\n        \"anchor_text\": \"soil\",\n        \"in_heading\": 0,\n        \"in_main\": 0,\n        \"in_nav\": 0,\n        \"is_internal\": 1,\n        \"link_target\": \"\",\n        \"nofollow\": 0,\n        \"placement\": \"body\",\n        \"rel\": \"\",\n        \"source_url\": \"http://localhost:8099/shop/rakes/\",\n        \"target_domain\": \"localhost:8099\",\n        \"target_status\": null,\n        \"target_url\": \"http://localhost:8099/guides/soil-ph/\"\n      },\n      {\n        \"anchor_text\": \"Shop\",\n        \"in_heading\": 0,\n        \"in_main\": 0,\n        \"in_nav\": 0,\n        \"is_internal\": 1,\n        \"link_target\": \"\",\n        \"nofollow\": 0,\n        \"placement\": \"body\",\n        \"rel\": \"\",\n        \"source_url\": \"http://localhost:8099/shop/rakes/\",\n        \"target_domain\": \"localhost:8099\",\n        \"target_status\": 200,\n        \"target_url\": \"http://localhost:8099/shop/\"\n      }\n    ],\n    \"truncated\": false\n  }\n}"
+      }
+     ],
+     "isError": false
+    }
+   },
+   "seconds": 0.01
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 9,
+    "method": "tools/call",
+    "params": {
+     "name": "start_crawl",
+     "arguments": {
+      "url": "https://example.com/"
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 9,
+    "result": {
+     "content": [
+      {
+       "type": "text",
+       "text": "{\n  \"refused\": true,\n  \"rule\": \"host_allow_list\",\n  \"error\": \"Host 'example.com' is not on this server's allow-list (localhost). Add it to TOADSTONE_MCP_ALLOW_HOSTS to crawl it.\",\n  \"guardrails_in_force\": true\n}"
+      }
+     ],
+     "isError": true
+    }
+   },
+   "seconds": 0.0
+  }
+ ],
+ "readonly_calls": [
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+     "protocolVersion": "2025-06-18",
+     "capabilities": {},
+     "clientInfo": {
+      "name": "demo-agent",
+      "version": "0"
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+     "protocolVersion": "2025-06-18",
+     "capabilities": {
+      "tools": {
+       "listChanged": false
+      }
+     },
+     "serverInfo": {
+      "name": "toadstone",
+      "version": "1.0.0"
+     },
+     "instructions": "Toadstone is an SEO crawler. Crawls have numeric ids; issues have ids that are stable across crawls, so the same defect keeps its id until it is fixed.\n\nStart with list_crawls to find a crawl id, then list_issues for what is wrong, page_detail for one URL, and regression_diff to compare two crawls. check_reference explains any check slug.\n\nGuardrails: read-only; crawls allowed against only hosts already crawled in this install; at most 2000 URLs per crawl."
+    }
+   },
+   "seconds": 0.11
+  },
+  {
+   "request": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+     "name": "start_crawl",
+     "arguments": {
+      "url": "http://localhost:8099/"
+     }
+    }
+   },
+   "response": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "result": {
+     "content": [
+      {
+       "type": "text",
+       "text": "{\n  \"refused\": true,\n  \"rule\": \"read_only\",\n  \"error\": \"start_crawl writes, and this MCP server is running read-only. Restart it with --allow-writes (or TOADSTONE_MCP_ALLOW_WRITES=true) if that is what you want; there is no tool argument that turns this off.\",\n  \"guardrails_in_force\": true\n}"
+      }
+     ],
+     "isError": true
+    }
+   },
+   "seconds": 0.0
+  }
+ ]
+}

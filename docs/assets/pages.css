@@ -1,0 +1,31 @@
+/* Extra styles for classroom.html and changelog.html. No inline CSS anywhere (strict CSP). */
+.page-hero{padding:56px 0 36px;border-bottom:1px solid var(--line)}
+.page-hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;margin:0 0 16px;letter-spacing:-.02em}
+.page-hero h1 em{font-style:normal;color:var(--mint)}
+.checklist{list-style:none;padding:0;margin:0}.checklist li{position:relative;padding:6px 0 6px 28px}
+.checklist li::before{content:"\2713";position:absolute;left:0;top:6px;color:var(--mint);font-weight:800}
+.checklist.no li::before{content:"\2715";color:var(--amber)}
+.run{display:grid;gap:14px;margin:8px 0 0;padding:0;list-style:none}
+.run>li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
+.run .t{font:800 15px/1.3 var(--mono);color:var(--mint)}.run .t small{display:block;color:var(--muted);font-weight:600;margin-top:4px}
+.run h3{margin:0 0 6px;font-size:1.15rem}.run p{margin:6px 0;color:#d5e3da}
+.run pre.cmd{margin:8px 0}
+@media (max-width:640px){.run>li{grid-template-columns:1fr;gap:6px}}
+table.ans{min-width:640px}table.ans th,table.ans td{text-align:left;white-space:normal;vertical-align:top}
+table.ans td.num{text-align:right;white-space:nowrap;font-family:var(--mono)}
+.mono-s{font-family:var(--mono);font-size:13px;color:#cfe0d6}
+.prose-wide{max-width:900px}
+.stats.three{grid-template-columns:repeat(3,1fr)}@media (max-width:760px){.stats.three{grid-template-columns:1fr}}
+.dl.two{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+/* changelog */
+.log{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.log>li{position:relative;margin:0 0 26px;padding:0 0 0 24px}
+.log>li::before{content:"";position:absolute;left:-7px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--mint);border:2px solid var(--bg)}
+.log time{font:700 14px var(--mono);color:var(--mint)}
+.log h3{margin:2px 0 4px;font-size:1.1rem}.log p{margin:4px 0;color:#d5e3da}
+.log .src{font:12px var(--mono);color:var(--muted)}
+.repo-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.issue-list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.issue-list li{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px}
+.issue-list b{color:var(--ink)}.issue-list p{margin:6px 0 0;color:#d5e3da;font-size:15px}
+.prose-wide h3{margin:28px 0 12px}

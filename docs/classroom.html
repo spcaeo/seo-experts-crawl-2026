@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toadstone for classrooms and bootcamps: a free 45-minute SEO audit exercise</title>
+<meta name="description" content="Teach technical SEO with a free, self-hosted crawler. A ready 45-minute exercise: crawl a practice site, find 18 errors, fix them, re-crawl. No sign-up, no seat fees, nothing to buy.">
+<link rel="canonical" href="https://spcaeo.github.io/seo-experts-crawl-2026/classroom.html">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Rakesh Patel">
+<meta name="theme-color" content="#0d1411">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/pages.css">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Toadstone study">
+<meta property="og:title" content="Toadstone for classrooms and bootcamps: a free 45-minute SEO audit exercise">
+<meta property="og:description" content="A free, self-hosted crawler and a ready 45-minute exercise: crawl a practice site, find 18 errors, fix them, re-crawl. No sign-up, nothing to buy.">
+<meta property="og:url" content="https://spcaeo.github.io/seo-experts-crawl-2026/classroom.html">
+<meta property="og:image" content="https://spcaeo.github.io/seo-experts-crawl-2026/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Audit the experts: a Toadstone crawl study of 10 SEO sites.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Toadstone for classrooms and bootcamps: a free 45-minute SEO audit exercise">
+<meta name="twitter:description" content="A free, self-hosted crawler and a ready 45-minute exercise: crawl a practice site, find 18 errors, fix them, re-crawl. No sign-up, nothing to buy.">
+<meta name="twitter:image" content="https://spcaeo.github.io/seo-experts-crawl-2026/og-image.png">
+<meta name="twitter:image:alt" content="Audit the experts: a Toadstone crawl study of 10 SEO sites.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Toadstone classroom exercise: crawl a practice site, find issues, fix them (45 minutes)", "description": "A 45-minute technical SEO exercise for classrooms and bootcamps using the free, self-hosted Toadstone crawler and a practice site that runs on the student's own machine.", "url": "https://spcaeo.github.io/seo-experts-crawl-2026/classroom.html", "learningResourceType": "Exercise", "educationalLevel": "Beginner", "timeRequired": "PT45M", "teaches": "Technical SEO audits: meta descriptions, canonicals, broken links, redirects, sitemaps, alt text", "isAccessibleForFree": true, "inLanguage": "en", "author": {"@type": "Person", "name": "Rakesh Patel", "url": "https://github.com/spcaeo"}, "publisher": {"@type": "Organization", "name": "Toadstone", "url": "https://spcaeo.github.io/toadstone/"}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">Audit the <span>experts</span></a>
+<nav class="links" aria-label="Sections"><a href="index.html">Study</a><a href="methodology.html">Method</a><a href="calculator.html">Calculator</a><a href="compare.html">Compare</a><a href="classroom.html" aria-current="page">Classroom</a><a href="changelog.html">Changelog</a><a href="faq.html">FAQ</a></nav>
+<a class="btn sm" href="#kit">Get the kit</a></div></header>
+<main id="main">
+
+<section class="page-hero" aria-labelledby="h1"><div class="wrap">
+<p class="kicker">For teachers, trainers and bootcamp leads</p>
+<h1 id="h1">Free for classrooms and bootcamps. <em>Teach a real crawl in 45 minutes.</em></h1>
+<p class="lede">Toadstone is a free, self-hosted SEO crawler. It is source-available under the Elastic License 2.0, with 222 checks, no seat fees and no URL cap. It runs on each student's own laptop, so there are no accounts to create and no crawl data leaves the room. Below is a ready exercise: crawl a small practice site, find what is wrong, fix it, and crawl again to prove it.</p>
+<div class="cta-row"><a class="btn" href="#kit">Download the practice site</a><a class="btn ghost" href="#runsheet">Read the run-sheet</a></div>
+<ul class="stats three">
+<li class="stat"><b>45</b><span>minutes, start to finish (our estimate; see the note on testing below)</span></li>
+<li class="stat"><b>18</b><span>errors on the practice site before the fixes, in our real test crawl</span></li>
+<li class="stat good"><b>0</b><span>sign-ups, seats, licences or payments. Nothing here is for sale.</span></li>
+</ul>
+</div></section>
+
+<section id="prep" aria-labelledby="prep-h"><div class="wrap">
+<h2 id="prep-h">Before class (10 minutes, teacher)</h2>
+<p class="sub">Do this the day before, on one machine that matches your students' laptops. A first install is the step most likely to go wrong in a class, so keep it out of the 45 minutes.</p>
+<div class="grid2">
+<div class="panel"><h3>What each student needs</h3>
+<ul class="checklist">
+<li>Python 3.11 or newer and git (Toadstone's README lists Python 3.11+).</li>
+<li>Toadstone installed from <a href="https://github.com/spcaeo/toadstone">github.com/spcaeo/toadstone</a>. The README has three routes: Docker Compose, plain Docker, or <span class="mono-s">pip install -r requirements.txt</span> plus <span class="mono-s">playwright install chromium</span>.</li>
+<li>Two terminal windows and a browser.</li>
+<li>The practice site zip from the <a href="#kit">kit below</a>.</li></ul></div>
+<div class="panel"><h3>What the exercise does not need</h3>
+<ul class="checklist no">
+<li>No account, e-mail address or sign-up. Anywhere.</li>
+<li>No internet access during the crawl: the practice site runs on <span class="mono-s">localhost</span>, so nothing is crawled on a third party's server.</li>
+<li>No paid plan, licence key or credit card.</li>
+<li>No real site. Please do not point a class of 30 at a site you do not own.</li></ul></div>
+</div>
+<p class="note mt">Honest note: we have not yet run this with a live class. The timings are an estimate, and the crawl numbers on this page come from our own test runs of the kit with the current Toadstone code. Counts can shift by a few if your version has added or changed checks, so run the crawl yourself first and use your own numbers on the board.</p>
+</div></section>
+
+<section id="runsheet" aria-labelledby="run-h"><div class="wrap">
+<h2 id="run-h">The 45-minute run-sheet</h2>
+<p class="sub">Students work alone or in pairs. Every command below is for macOS or Linux; on Windows use <span class="mono-s">python</span> instead of <span class="mono-s">python3</span>.</p>
+<ol class="run">
+
+<li><div class="t">0 to 5 min<small>Set up</small></div><div>
+<h3>Unzip the site and start both servers</h3>
+<p>Unzip <span class="mono-s">practice-site.zip</span>. In terminal 1 start the practice site, which is only reachable from your own machine:</p>
+<pre class="cmd">cd practice-site
+python3 serve.py</pre>
+<p>Open <span class="mono-s">http://localhost:8099/</span> in a browser: a tiny garden-shop site, six pages. Keep port 8099 and the host name <span class="mono-s">localhost</span> exactly, because the home page's canonical tag points there. In terminal 2, from your Toadstone folder, start the app:</p>
+<pre class="cmd">python main.py --local --port 5057</pre>
+<p>Then open <span class="mono-s">http://localhost:5057</span>.</p></div></li>
+
+<li><div class="t">5 to 10 min<small>Crawl</small></div><div>
+<h3>Crawl the practice site</h3>
+<p>In the Toadstone app enter <span class="mono-s">http://localhost:8099/</span> and start the crawl. It takes a few seconds. Prefer the command line? This does the same and writes a report you can diff later:</p>
+<pre class="cmd">python main.py --crawl http://localhost:8099/ --fail-on error --report before.json</pre>
+<p><b>Expected in our test run:</b> 9 URLs crawled, <b>18 errors, 58 warnings, 8 info</b>, and a non-zero exit code because of <span class="mono-s">--fail-on error</span>. That exit code is the same switch teams use to fail a build.</p></div></li>
+
+<li><div class="t">10 to 20 min<small>Triage</small></div><div>
+<h3>Sort the findings: what matters, what is noise</h3>
+<p>Ask each pair to open the issues view and answer three questions on paper: which findings could stop a page being found or used (broken, missing, duplicate)? Which are cosmetic or advice? Which are about the practice server rather than the site (for example the <span class="mono-s">server_version_disclosed</span> and missing security-header findings, which come from Python's tiny test server)?</p>
+<p>Then hand out the table below, without the last column, and have them match each planted problem to a finding. Every finding in Toadstone links to a plain-English explanation and a how-to-fix note, so students should use those, not guess.</p>
+<p class="note">Teaching point: severity is the tool's opinion, not a verdict. Missing structured data is labelled an error here; a missing referrer policy is only info. Ask the class whether they agree, and why a team might change the ranking.</p></div></li>
+
+<li><div class="t">20 to 35 min<small>Fix</small></div><div>
+<h3>Fix the site, one problem at a time</h3>
+<p>Students edit the HTML files in <span class="mono-s">practice-site/</span> with any text editor and reload the browser as they go. The core fixes are the first six rows of the table below. Pairs that finish early take the stretch task.</p></div></li>
+
+<li><div class="t">35 to 45 min<small>Re-crawl and discuss</small></div><div>
+<h3>Crawl again and compare the numbers</h3>
+<pre class="cmd">python main.py --crawl http://localhost:8099/ --fail-on error --report after.json</pre>
+<p><b>Expected after the six core fixes:</b> 7 errors, 38 warnings, 7 info, with every remaining error being <span class="mono-s">no_structured_data</span>. <b>After the stretch task</b> (add structured data): <b>0 errors</b>, the run prints <span class="mono-s">PASSED</span> and exits 0. Discuss: which fixes removed the most findings per minute of work? Why did warnings go <em>up</em> after the stretch task (answer in the key below)? What would you want in a real pre-launch checklist?</p></div></li>
+</ol>
+</div></section>
+
+<section id="key" aria-labelledby="key-h"><div class="wrap">
+<h2 id="key-h">The planted problems, and the answer key</h2>
+<p class="sub">Counts are from real crawls of the kit on 24 October 2026. Hand students the table without the right-hand column. If you would rather they not see it, keep this page to yourself and print the table.</p>
+<div class="tablewrap"><table class="ans"><caption>Planted problems on the practice site</caption>
+<thead><tr><th scope="col">#</th><th scope="col">What is wrong</th><th scope="col">Toadstone check</th><th scope="col">Found</th><th scope="col">The fix</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Two pages link to a page that does not exist, <span class="mono-s">/guides/soil-ph/</span>. The 404 response itself is also flagged for a missing viewport tag.</td><td><span class="mono-s">404_client_error</span>, <span class="mono-s">missing_viewport</span></td><td class="num">1 + 1</td><td>Create the page (the solution does), or remove the two links. The viewport finding goes with the 404.</td></tr>
+<tr><td>2</td><td>Seven pages have no meta description.</td><td><span class="mono-s">missing_meta_description</span></td><td class="num">7</td><td>Add a <span class="mono-s">&lt;meta name="description"&gt;</span> of one or two sentences to each page.</td></tr>
+<tr><td>3</td><td>Four internal links point at <span class="mono-s">/old-sale/</span>, which redirects (301) to <span class="mono-s">/shop/</span>.</td><td><span class="mono-s">internal_link_to_redirect</span></td><td class="num">4</td><td>Point the links straight at <span class="mono-s">/shop/</span>.</td></tr>
+<tr><td>4</td><td>There is no XML sitemap.</td><td><span class="mono-s">sitemap_file_error</span>, <span class="mono-s">sitemap_missing</span></td><td class="num">1 + 1</td><td>Add <span class="mono-s">sitemap.xml</span> listing the seven pages.</td></tr>
+<tr><td>5</td><td>Images on the three blog pages have no alt text.</td><td><span class="mono-s">images_missing_alt</span></td><td class="num">3</td><td>Add a short, descriptive <span class="mono-s">alt</span>. Add <span class="mono-s">width</span> and <span class="mono-s">height</span> too.</td></tr>
+<tr><td>6</td><td>Pages have no canonical tag (the home page does).</td><td><span class="mono-s">missing_canonical</span></td><td class="num">7</td><td>Add <span class="mono-s">&lt;link rel="canonical"&gt;</span> with the page's own full URL.</td></tr>
+<tr><td>S</td><td><b>Stretch:</b> no structured data on any page.</td><td><span class="mono-s">no_structured_data</span></td><td class="num">8</td><td>Add a small JSON-LD block (our solution uses a minimal <span class="mono-s">WebPage</span>). This takes errors to 0.</td></tr>
+</tbody></table></div>
+<div class="grid2 mt">
+<div class="panel"><h3>Real before and after</h3>
+<p class="tight">From our test crawls, errors / warnings / info:</p>
+<ul class="clean"><li><b>Start:</b> 18 / 58 / 8 (9 URLs)</li><li><b>After core fixes 1 to 6:</b> 7 / 38 / 7 (8 URLs: the redirecting URL is gone)</li><li><b>After the stretch task:</b> 0 / 45 / 7, <span class="mono-s">--fail-on error</span> passes</li></ul></div>
+<div class="panel"><h3>Why warnings rose at the end</h3>
+<p>Our minimal <span class="mono-s">WebPage</span> JSON-LD has no <span class="mono-s">datePublished</span> or <span class="mono-s">dateModified</span>, so seven new <span class="mono-s">missing_dates</span> warnings ("Missing Article Dates") appeared. It is a good moment to show that fixing one thing can surface another, and that a clean "error" count is not the same as a finished site.</p></div>
+</div>
+</div></section>
+
+<section id="kit" aria-labelledby="kit-h"><div class="wrap"><div class="cta">
+<h2 id="kit-h">The kit</h2>
+<p class="sub tight">Plain files, no tracking, no form. Both zips contain a six-page static site and a short Python server. They need nothing beyond Python.</p>
+<div class="dl two mt">
+<a href="classroom/practice-site.zip"><b>practice-site.zip</b><span>Student version: the broken site and serve.py (3 KB)</span></a>
+<a href="classroom/practice-site-solution.zip"><b>practice-site-solution.zip</b><span>Teacher version: every fix applied, including the stretch task (5 KB)</span></a>
+<a href="https://github.com/spcaeo/toadstone"><b>Toadstone on GitHub</b><span>Install steps, the 222-check list and the licence</span></a>
+<a href="changelog.html"><b>Changelog and known issues</b><span>What has shipped, and where the tool is still rough</span></a>
+</div></div></div></section>
+
+<section id="limits" aria-labelledby="lim-h"><div class="wrap">
+<h2 id="lim-h">Honest limits for a classroom</h2>
+<div class="grid2">
+<div class="panel"><h3>What Toadstone does not do</h3>
+<ul class="clean">
+<li>No per-student or per-class accounts, projects or grading. Each student runs their own copy.</li>
+<li>No PDF reports and no white-label output. It exports Excel, CSV, HTML and Markdown.</li>
+<li>No keyword research and no rank tracking, so this is a technical-SEO exercise only.</li>
+<li>The CLI has no flags yet for max URLs, delay or user-agent; the app has them.</li></ul></div>
+<div class="panel"><h3>What to watch for</h3>
+<ul class="clean">
+<li>It is young software with <a href="changelog.html#known-issues">known false positives</a>. Teach students to verify a finding before they report it, and never to crawl a site they do not own.</li>
+<li>Licence: Elastic License 2.0 is source-available, not open source. Using it in teaching is fine. Offering it to third parties as a hosted service is not covered.</li>
+<li>On a Mac, always pass <span class="mono-s">--port</span>: port 5000 belongs to AirPlay Receiver.</li></ul></div>
+</div>
+<p class="note mt">Questions, corrections, or a step that failed for you? Open an issue on <a href="https://github.com/spcaeo/toadstone/issues">GitHub</a>. There is nothing to sign up for and nobody will contact you.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+<p><b>Disclosure:</b> Toadstone is our tool; this page and the exercise were written by its maker, Rakesh Patel. It is free, and nothing on this page is for sale. If something here is out of date, open an issue on <a href="https://github.com/spcaeo/seo-experts-crawl-2026/issues">GitHub</a> and we will update it quickly.</p>
+<p>Text CC BY 4.0 · Code MIT · Practice-site files MIT · <a href="index.html">Study</a> · <a href="methodology.html">Method</a> · <a href="calculator.html">Calculator</a> · <a href="compare.html">Compare</a> · <a href="changelog.html">Changelog</a> · <a href="faq.html">FAQ</a></p>
+</div></footer>
+</body></html>

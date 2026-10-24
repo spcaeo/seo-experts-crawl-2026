@@ -1,0 +1,28 @@
+WEBVTT
+
+00:00.200 --> 00:03.000
+An AI agent audits a small site through Toadstone’s MCP server. Real tool calls, real output.
+
+00:03.500 --> 00:08.000
+Agent (illustrative): I will audit the practice site with Toadstone. First, what can the server do? — tool: tools/list
+
+00:08.500 --> 00:12.200
+Agent (illustrative): Start a small crawl of the practice site, capped at 50 URLs. — tool: start_crawl
+
+00:12.700 --> 00:16.400
+Agent (illustrative): Poll until it is done. — tool: crawl_status
+
+00:16.900 --> 00:22.400
+Agent (illustrative): Now the errors only. — tool: list_issues
+
+00:22.900 --> 00:26.800
+Agent (illustrative): The 404 matters most. What is the missing meta description check? — tool: check_reference
+
+00:27.300 --> 00:31.800
+Agent (illustrative): Look at one page, /shop/rakes/. — tool: page_detail
+
+00:32.300 --> 00:37.800
+Agent (illustrative): What if I drift off the practice site? Guardrails answer. — tool: start_crawl
+
+00:38.500 --> 00:43.700
+Found: 1 broken page, 7 pages without a meta description, 8 without structured data, 1 missing viewport, 1 sitemap error: 18 errors on 9 pages. Toadstone is free, self-hosted and source-available.

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toadstone changelog and known issues</title>
+<meta name="description" content="What has actually shipped in Toadstone, its GitHub Action and this study, with dates and links, plus an honest list of known false positives and missing features.">
+<link rel="canonical" href="https://spcaeo.github.io/seo-experts-crawl-2026/changelog.html">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Rakesh Patel">
+<meta name="theme-color" content="#0d1411">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/pages.css">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Toadstone study">
+<meta property="og:title" content="Toadstone changelog and known issues">
+<meta property="og:description" content="What has actually shipped in Toadstone, its GitHub Action and this study, with dates and links, plus an honest list of known issues.">
+<meta property="og:url" content="https://spcaeo.github.io/seo-experts-crawl-2026/changelog.html">
+<meta property="og:image" content="https://spcaeo.github.io/seo-experts-crawl-2026/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Audit the experts: a Toadstone crawl study of 10 SEO sites.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Toadstone changelog and known issues">
+<meta name="twitter:description" content="What has actually shipped in Toadstone, its GitHub Action and this study, with dates and links, plus an honest list of known issues.">
+<meta name="twitter:image" content="https://spcaeo.github.io/seo-experts-crawl-2026/og-image.png">
+<meta name="twitter:image:alt" content="Audit the experts: a Toadstone crawl study of 10 SEO sites.">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">Audit the <span>experts</span></a>
+<nav class="links" aria-label="Sections"><a href="index.html">Study</a><a href="methodology.html">Method</a><a href="calculator.html">Calculator</a><a href="compare.html">Compare</a><a href="classroom.html">Classroom</a><a href="changelog.html" aria-current="page">Changelog</a><a href="faq.html">FAQ</a></nav>
+<a class="btn sm" href="#known-issues">Known issues</a></div></header>
+<main id="main">
+
+<section class="page-hero" aria-labelledby="h1"><div class="wrap">
+<p class="kicker">What shipped, and what is still rough</p>
+<h1 id="h1">Changelog and <em>known issues</em></h1>
+<p class="lede">Every entry below is a real commit with a date and a link. We list only what has shipped, newest first, across three repositories: Toadstone, its GitHub Action, and this study. Under it is the honest list of problems we already know about. There are no promised dates.</p>
+<p class="note">Times are America/Toronto. Commit dates come from the public GitHub history, checked on 24 October 2026.</p>
+</div></section>
+
+<section id="log" aria-labelledby="log-h"><div class="wrap prose-wide">
+<h2 id="log-h">Shipped</h2>
+<ol class="log">
+<li><time datetime="2026-10-24">24 Oct 2026</time><h3>Cost calculator and a sourced comparison page</h3><p>Two pages were added to this study site: a seats-times-years cost calculator that uses Screaming Frog's public list price (retrieved 24 Oct 2026, cited on the page), and a side-by-side comparison with a section on what Toadstone does not do and where Screaming Frog is better. FAQ entry, nav links and the pricing data file came with it.</p><p class="src">seo-experts-crawl-2026 · <a href="https://github.com/spcaeo/seo-experts-crawl-2026/commit/f229818">f229818</a> · committed 07:15 Toronto time</p></li>
+<li><time datetime="2026-10-23">23 Oct 2026</time><h3>Toadstone: meta description on the web UI page</h3><p>One line added to the web UI template so the app's own page has a meta description. This is a small first fix against the self-audit items in issue #1 (see below); it is not the whole list.</p><p class="src">toadstone · <a href="https://github.com/spcaeo/toadstone/commit/4dc3dd6">4dc3dd6</a> · 20:20 Toronto time (00:20 UTC on 24 Oct)</p></li>
+<li><time datetime="2026-10-23">23 Oct 2026</time><h3>Toadstone SEO check: a GitHub Action, tagged v1</h3><p>A GitHub Action that crawls a preview deploy or built static site with Toadstone on your own runner, fails the job at the severity you choose, and keeps one sticky pull-request comment of what a change broke and fixed. No account, key or third-party service. Examples for URL, preview and static-site modes are in the repo. The <span class="mono-s">v1</span> tag points at this commit.</p><p class="src">toadstone-seo-check · <a href="https://github.com/spcaeo/toadstone-seo-check/commit/f3906bf">f3906bf</a> · <a href="https://github.com/spcaeo/toadstone-seo-check/tree/v1">tag v1</a> · 20:19 Toronto time</p></li>
+<li><time datetime="2026-10-23">23 Oct 2026</time><h3>The 2026 SEO experts crawl: data, charts and landing page</h3><p>Initial publication of this study: a polite crawl of 10 SEO sites (2,521 HTML pages, 15,326 URLs), the CSV data, charts, methodology, FAQ and landing page. Data CC BY 4.0, scripts MIT.</p><p class="src">seo-experts-crawl-2026 · <a href="https://github.com/spcaeo/seo-experts-crawl-2026/commit/9f289cf">9f289cf</a> · 20:16 Toronto time</p></li>
+<li><time datetime="2026-10-20">20 Oct 2026</time><h3>Toadstone: first public release</h3><p>Source-available under the Elastic License 2.0 (not open source). 222 documented checks, an About tab, a <span class="mono-s">--port</span> option (macOS reserves port 5000 for AirPlay), the coverage-sweep harness (180 checks observed firing in one sweep), generated checks documentation, security and contributing docs, CI workflow, and a live demo and launch film. The repo's own <a href="https://github.com/spcaeo/toadstone/blob/main/CHANGELOG.md">CHANGELOG.md</a> and BUILD-LOG.md list the fixes and the open items in detail.</p><p class="src">toadstone · eight commits from <a href="https://github.com/spcaeo/toadstone/commit/3288744">3288744</a> (08:21 Toronto) to <a href="https://github.com/spcaeo/toadstone/commit/fe9c951">fe9c951</a> (09:42 Toronto)</p></li>
+</ol>
+<p class="note">Repositories: <a href="https://github.com/spcaeo/toadstone">spcaeo/toadstone</a> · <a href="https://github.com/spcaeo/toadstone-seo-check">spcaeo/toadstone-seo-check</a> · <a href="https://github.com/spcaeo/seo-experts-crawl-2026">spcaeo/seo-experts-crawl-2026</a>. None of them has a formal release or version number yet apart from the Action's <span class="mono-s">v1</span> tag, so entries are dated rather than versioned.</p>
+</div></section>
+
+<section id="known-issues" aria-labelledby="ki-h"><div class="wrap prose-wide">
+<h2 id="ki-h">Known issues</h2>
+<p class="sub">From <a href="https://github.com/spcaeo/toadstone/issues/1">issue #1 on GitHub</a>, opened 23 Oct 2026 while crawling the ten study sites, and still open when we checked on 24 Oct 2026. We have not re-tested each item today. Until they are fixed, treat a "broken" finding on a site you do not control as a lead, not a verdict, and check it with curl.</p>
+<h3>False positives</h3>
+<ul class="issue-list">
+<li><b>Bot walls counted as broken.</b><p>The image and broken-link checks treat 401 and 403 responses (a site refusing a bot) as broken. On Moz this produced a false "301 pages link to broken URLs". Suggested fix: broken means 404, 410 or 5xx; report 401 and 403 separately as "blocked, unverified".</p></li>
+<li><b>Cloudflare image URLs with commas are truncated.</b><p>URLs such as <span class="mono-s">/cdn-cgi/image/width=…,quality=…/</span> are cut at the comma, giving a fake broken image (seen on Yoast).</p></li>
+<li><b>robots.txt behind a Cloudflare challenge reads as disallow-all.</b><p>That then flags canonicals the crawler cannot verify.</p></li>
+<li><b>1×1 tracking pixels flagged for missing alt text.</b></li>
+<li><b>The modified-date check is noisy behind CDNs.</b></li>
+</ul>
+<h3>Crawl limits and politeness</h3>
+<ul class="issue-list">
+<li><b>The command line has no flags for max URLs, user agent or delay.</b><p>Max URLs defaults to 5,000,000 on the CLI. The web app has these settings, and the MCP server enforces its own 2,000-URL cap.</p></li>
+<li><b>Sitemap fetches and image checks ignore the delay setting.</b><p>A 300-page crawl made about 3,000 requests on image-heavy sites. The study's crawl settings and filters are described on the <a href="methodology.html">method page</a>.</p></li>
+</ul>
+<h3>The public demo page</h3>
+<ul class="issue-list">
+<li><b>Missing metadata on the GitHub Pages demo.</b><p>Issue #1 notes that the demo at <a href="https://spcaeo.github.io/toadstone/">spcaeo.github.io/toadstone</a> had no meta description, canonical, OG or Twitter tags, structured data or sitemap. The only related change we can see in the history is the web UI template line on 23 Oct; the issue is not marked resolved.</p></li>
+</ul>
+<h3>From the project's own changelog</h3>
+<ul class="issue-list">
+<li><b>One front-end file is far over the project's own size rule.</b><p><span class="mono-s">web/static/js/app.js</span> is 4,548 lines against a 1,000-line rule. Listed as debt, not exempted.</p></li>
+<li><b>A race between the two crawl loops.</b><p>A URL discovered just as the pool shuts down can be submitted after shutdown and lost. Recorded as open, not fixed.</p></li>
+<li><b>Some checks are proven only against stubbed data.</b><p><span class="mono-s">gsc_canonical_overridden</span> and the paid link-metrics checks are tested against stubbed transports. The repo's BUILD-LOG.md says what that does and does not establish.</p></li>
+</ul>
+</div></section>
+
+<section id="not-built" aria-labelledby="nb-h"><div class="wrap prose-wide">
+<h2 id="nb-h">Not built</h2>
+<p class="sub">Things people ask for that Toadstone does not do today. We are not promising any of them.</p>
+<ul class="clean">
+<li>Per-client projects or workspaces</li><li>PDF reports and white-label output (exports are Excel, CSV, HTML and Markdown)</li><li>Keyword research</li><li>Rank tracking</li></ul>
+<p class="note mt">See the sourced <a href="compare.html">comparison page</a> for where Screaming Frog is the better choice. To report a problem or suggest something, open an issue on <a href="https://github.com/spcaeo/toadstone/issues">GitHub</a>.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+<p><b>Disclosure:</b> Toadstone is our tool; this page was written by its maker, Rakesh Patel. If something here is wrong or out of date, open an issue on <a href="https://github.com/spcaeo/seo-experts-crawl-2026/issues">GitHub</a> and we will update it quickly.</p>
+<p>Text CC BY 4.0 · Code MIT · <a href="index.html">Study</a> · <a href="methodology.html">Method</a> · <a href="calculator.html">Calculator</a> · <a href="compare.html">Compare</a> · <a href="classroom.html">Classroom</a> · <a href="faq.html">FAQ</a></p>
+</div></footer>
+</body></html>
